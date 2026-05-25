@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retos PDI 2026-2030</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+<style>
+:root {
+  --c1: #FF0073;
+  --c2: #98CA00;
+  --c3: #FFB500;
+  --c4: #00B4E3;
+  --bg: #F4F6FA;
+  --surface: #FFFFFF;
+  --border: #E2E8F0;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.10);
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  gap: 16px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #FF0073, #00B4E3);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-export {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  background: var(--text-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.2px;
+}
+
+.btn-export:hover { background: #1E293B; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-export:active { transform: translateY(0); }
+.btn-export i { font-size: 12px; }
+
+.btn-excel {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  background: #1F7A3D;
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.2px;
+}
+
+.btn-excel:hover { background: #155D2E; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-excel:active { transform: translateY(0); }
+.btn-excel i { font-size: 12px; }
+
+.btn-export-xlsx {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 9px 18px;
+  background: #C40059;
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 0.2px;
+}
+
+.btn-export-xlsx:hover { background: #9A0046; transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-export-xlsx:active { transform: translateY(0); }
+.btn-export-xlsx i { font-size: 12px; }
+
+.hero {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 32px 0;
+}
+
+.hero-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.pill-blue { background: #EFF8FF; color: #0284C7; }
+.pill-year { background: #F8FAFC; color: var(--text-secondary); border: 1px solid var(--border); }
+
+.hero-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: #FF0073;
+}
+
+.hero-context {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 0 20px;
+  border-top: 1px solid var(--border);
+  margin-top: 16px;
+}
+
+.view-tabs {
+  max-width: 1600px;
+  margin: 16px auto 0;
+  padding: 0 32px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.view-tab {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-secondary);
+  border-radius: 999px;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-tab:hover {
+  background: #F8FAFC;
+}
+
+.view-tab.active {
+  background: var(--text-primary);
+  color: white;
+  border-color: transparent;
+  box-shadow: var(--shadow-sm);
+}
+
+.context-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.context-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+
+.context-value {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  min-height: 18px;
+}
+
+.context-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--border);
+}
+
+.filters-bar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 32px;
+  position: sticky;
+  top: 64px;
+  z-index: 99;
+}
+
+.filters-inner {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 12px 6px 10px;
+  transition: border-color 0.2s;
+}
+
+.filter-group:focus-within { border-color: #94A3B8; }
+
+.filter-group i {
+  color: var(--text-muted);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.filter-group select {
+  border: none;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  outline: none;
+  cursor: pointer;
+  min-width: 180px;
+  max-width: 260px;
+}
+
+.stats-summary {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  background: #F1F5F9;
+  color: var(--text-secondary);
+}
+
+.stat-chip span { font-weight: 700; color: var(--text-primary); }
+
+.btn-reset {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-reset:hover { border-color: #94A3B8; color: var(--text-primary); background: var(--bg); }
+
+.board {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .board { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .board { grid-template-columns: 1fr; }
+  .hero, .filters-bar { padding-left: 16px; padding-right: 16px; }
+}
+
+.col-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.col-header {
+  border-radius: var(--radius) var(--radius) 0 0;
+  padding: 16px 18px 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.col-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  background: radial-gradient(ellipse at 80% 20%, white 0%, transparent 60%);
+}
+
+.col-header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  position: relative;
+}
+
+.col-icon {
+  width: 34px;
+  height: 34px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.col-badge {
+  background: rgba(255,255,255,0.22);
+  color: white;
+  border-radius: 20px;
+  padding: 2px 9px;
+  font-size: 12px;
+  font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+
+.col-name {
+  font-family: 'DM Serif Display', serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: white;
+  line-height: 1.3;
+  margin-top: 10px;
+  position: relative;
+}
+
+.col-body {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 80px;
+  max-height: 78vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.col-body::-webkit-scrollbar { width: 4px; }
+.col-body::-webkit-scrollbar-track { background: transparent; }
+.col-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.reto-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  transition: all 0.18s ease;
+  cursor: default;
+  position: relative;
+}
+
+.reto-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #CBD5E1;
+  transform: translateY(-1px);
+  background: white;
+}
+
+.reto-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.reto-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  flex: 1;
+  word-break: break-word;
+}
+
+.badge-proyecto {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.reto-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.meta-row {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.meta-icon {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  flex-shrink: 0;
+  width: 12px;
+}
+
+.meta-text {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.meta-text strong {
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  display: block;
+  margin-bottom: 1px;
+}
+
+.meta-text ul.meta-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.meta-text ul.meta-list li {
+  position: relative;
+  padding-left: 10px;
+  margin: 1px 0;
+}
+
+.meta-text ul.meta-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  gap: 8px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.empty-state i { font-size: 22px; opacity: 0.4; }
+.empty-state p { font-size: 12px; font-weight: 500; opacity: 0.7; }
+
+.footer {
+  text-align: center;
+  padding: 20px 32px;
+  font-size: 11px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  margin-top: 12px;
+  letter-spacing: 0.3px;
+}
+
+#loading {
+  position: fixed; inset: 0;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  z-index: 9999;
+  transition: opacity 0.4s ease;
+}
+
+.spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--text-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#loading p {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+}
+
+@media print {
+  .header-actions, .filters-bar, .btn-export, .btn-excel, #loading, .footer { display: none !important; }
+  .col-body { max-height: none !important; overflow: visible !important; }
+}
+
+/* Estilos exclusivos para ventana de impresión / PDF */
+.pdf-doc {
+  background: #F4F6FA;
+  --pdf-scale: 1;
+}
+.pdf-doc .pdf-hero {
+  background: #fff;
+  border-bottom: 1px solid #E2E8F0;
+  padding: calc(8px * var(--pdf-scale)) 0 calc(6px * var(--pdf-scale));
+  margin-bottom: calc(6px * var(--pdf-scale));
+}
+.pdf-doc .pdf-page {
+  width: 100%;
+  page-break-after: always;
+  break-after: page;
+}
+.pdf-doc .pdf-page:last-child {
+  page-break-after: auto;
+  break-after: auto;
+}
+.pdf-doc .pdf-hero .hero-eyebrow { margin-bottom: calc(6px * var(--pdf-scale)); }
+.pdf-doc .pdf-hero .pill { font-size: calc(8px * var(--pdf-scale)); padding: 2px 7px; }
+.pdf-doc .pdf-hero .hero-title {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: calc(20pt * var(--pdf-scale));
+  margin-bottom: calc(8px * var(--pdf-scale));
+}
+.pdf-doc .pdf-hero .hero-title em { color: #FF0073; font-style: italic; }
+.pdf-doc .pdf-hero .hero-context {
+  margin-top: calc(8px * var(--pdf-scale));
+  padding: calc(8px * var(--pdf-scale)) 0 0;
+  border-top: 1px solid #E2E8F0;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+.pdf-doc .pdf-hero .context-label { font-size: calc(7pt * var(--pdf-scale)); }
+.pdf-doc .pdf-hero .context-value { font-size: calc(8pt * var(--pdf-scale)); }
+.pdf-doc .pdf-hero .context-divider { height: calc(24px * var(--pdf-scale)); }
+.pdf-doc .pdf-board {
+  display: grid;
+  grid-template-columns: repeat(var(--pdf-cols, 2), 1fr);
+  gap: calc(10px * var(--pdf-scale));
+  width: 100%;
+  align-items: start;
+}
+.pdf-doc .pdf-board .col-wrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.pdf-doc .col-header {
+  border-radius: 8px 8px 0 0;
+  padding: calc(8px * var(--pdf-scale)) calc(10px * var(--pdf-scale)) calc(7px * var(--pdf-scale));
+  flex-shrink: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.pdf-doc .col-header::before { display: none; }
+.pdf-doc .col-icon {
+  width: calc(22px * var(--pdf-scale));
+  height: calc(22px * var(--pdf-scale));
+  font-size: calc(10px * var(--pdf-scale));
+}
+.pdf-doc .col-badge { font-size: calc(9px * var(--pdf-scale)); padding: 1px 7px; }
+.pdf-doc .col-name {
+  font-family: 'DM Serif Display', Georgia, serif;
+  font-size: calc(9.5pt * var(--pdf-scale));
+  margin-top: calc(6px * var(--pdf-scale));
+}
+.pdf-doc .col-body {
+  padding: calc(6px * var(--pdf-scale));
+  gap: calc(5px * var(--pdf-scale));
+  max-height: none !important;
+  overflow: visible !important;
+  border-radius: 0 0 8px 8px;
+  display: flex;
+  flex-direction: column;
+}
+.pdf-doc .reto-card {
+  padding: calc(6px * var(--pdf-scale)) calc(8px * var(--pdf-scale));
+  background: #F4F6FA;
+  border-radius: 6px;
+  box-shadow: none;
+  margin-bottom: calc(4px * var(--pdf-scale));
+}
+.pdf-doc .reto-name { font-size: calc(8pt * var(--pdf-scale)); font-weight: 600; }
+.pdf-doc .reto-meta {
+  margin-top: calc(4px * var(--pdf-scale));
+  padding-top: calc(4px * var(--pdf-scale));
+  gap: calc(3px * var(--pdf-scale));
+}
+.pdf-doc .meta-text { font-size: calc(7pt * var(--pdf-scale)); line-height: 1.35; }
+.pdf-doc .meta-text strong { font-size: calc(6.5pt * var(--pdf-scale)); }
+.pdf-doc .badge-proyecto { font-size: calc(6pt * var(--pdf-scale)); }
+.pdf-doc .pdf-footer {
+  text-align: center;
+  font-size: calc(7pt * var(--pdf-scale));
+  color: #94A3B8;
+  margin-top: calc(8px * var(--pdf-scale));
+  padding-top: calc(6px * var(--pdf-scale));
+  border-top: 1px solid #E2E8F0;
+}
+.pdf-doc .pdf-page-label {
+  font-size: calc(6.5pt * var(--pdf-scale));
+  color: #94A3B8;
+  font-style: italic;
+  margin-top: calc(4px * var(--pdf-scale));
+}
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <p>Cargando dashboard...</p>
+</div>
+
+<header class="header" id="header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="brand-icon"><i class="fa-solid fa-chart-gantt"></i></div>
+      <div class="brand-text">
+        <span class="brand-title">Plan de Desarrollo Institucional</span>
+        <span class="brand-sub">Dashboard Estratégico · 2026–2030</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-excel" onclick="document.getElementById('file-excel').click()">
+        <i class="fa-solid fa-file-upload"></i>
+        Cargar Excel
+      </button>
+      <button class="btn-export-xlsx" onclick="exportExcel()">
+        <i class="fa-solid fa-file-excel"></i>
+        Exportar Excel
+      </button>
+      <button class="btn-export" onclick="exportPDF()">
+        <i class="fa-solid fa-file-pdf"></i>
+        Exportar PDF
+      </button>
+      <input type="file" id="file-excel" accept=".xlsx,.xls" style="display:none" onchange="cargarExcel(event)">
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="hero-section">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="pill pill-blue"><i class="fa-solid fa-bullseye"></i> PDI</span>
+      <span class="pill pill-year">2026–2030</span>
+    </div>
+    <h1 class="hero-title">Retos asociados al <em>PDI 2026-2030</em></h1>
+    <div class="hero-context">
+      <div class="context-item">
+        <span class="context-label">Unidad</span>
+        <span class="context-value" id="ctx-unidad">Todas las unidades</span>
+      </div>
+      <div class="context-divider"></div>
+      <div class="context-item">
+        <span class="context-label">Área</span>
+        <span class="context-value" id="ctx-area">Todas las áreas</span>
+      </div>
+      <div class="context-divider"></div>
+      <div class="context-item">
+        <span class="context-label">Líder</span>
+        <span class="context-value" id="ctx-lider">—</span>
+      </div>
+      <div class="context-divider"></div>
+      <div class="context-item">
+        <span class="context-label">Total Retos</span>
+        <span class="context-value" id="ctx-total">—</span>
+      </div>
+      <div class="context-divider"></div>
+      <div class="context-item">
+        <span class="context-label">Proyectos</span>
+        <span class="context-value" id="ctx-proyectos">—</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="view-tabs" role="tablist" aria-label="Vistas del dashboard">
+  <button class="view-tab active" data-view="lineas" onclick="setView('lineas')">Retos por Línea</button>
+  <button class="view-tab" data-view="unidad_linea" onclick="setView('unidad_linea')">Retos por Unidad</button>
+</div>
+
+<div class="filters-bar" id="filters-bar">
+  <div class="filters-inner">
+    <span class="filter-label"><i class="fa-solid fa-sliders" style="margin-right:4px"></i>Filtros</span>
+    <!-- Filtro unidad para tabs "lineas" y "unidad" (original) -->
+    <div class="filter-group" id="filter-unidad-group">
+      <i class="fa-solid fa-building"></i>
+      <select id="sel-unidad" onchange="onUnidadChange()">
+        <option value="">Todas las Unidades</option>
+      </select>
+    </div>
+    <!-- Filtro unidad específico para tab "Retos por Unidad" -->
+    <div class="filter-group" id="filter-unidad-linea-group" style="display:none">
+      <i class="fa-solid fa-sitemap"></i>
+      <select id="sel-unidad-linea" onchange="renderBoard()">
+        <option value="">Todas las Unidades</option>
+        <option value="VICERRECTORIA ACADÉMICA">VICERRECTORIA ACADÉMICA</option>
+        <option value="VICERRECTORÍA DEL ESTUDIANTE">VICERRECTORÍA DEL ESTUDIANTE</option>
+        <option value="VICERRECTORÍA DE CRECIMIENTO">VICERRECTORÍA DE CRECIMIENTO</option>
+        <option value="VICERRECTORÍA FINANCIERA">VICERRECTORÍA FINANCIERA</option>
+        <option value="SECRETARIA GENERAL">SECRETARIA GENERAL</option>
+        <option value="GERENCIA DE TALENTO HUMANO">GERENCIA DE TALENTO HUMANO</option>
+        <option value="GERENCIA DE PLANEACIÓN Y GESTIÓN INSTITUCIONAL">GERENCIA DE PLANEACIÓN Y GESTIÓN INSTITUCIONAL</option>
+        <option value="GERENCIA DE EDUCACIÓN VIRTUAL.">GERENCIA DE EDUCACIÓN VIRTUAL.</option>
+      </select>
+    </div>
+    <div class="filter-group" id="area-filter-group">
+      <i class="fa-solid fa-layer-group"></i>
+      <select id="sel-area" onchange="renderBoard()">
+        <option value="">Todas las Áreas</option>
+      </select>
+    </div>
+    <button class="btn-reset" onclick="resetFilters()">
+      <i class="fa-solid fa-rotate-left"></i> Limpiar
+    </button>
+    <div class="stats-summary">
+      <div class="stat-chip"><span id="stat-retos">0</span>&nbsp;retos visibles</div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <div class="board" id="board"></div>
+</main>
+
+<footer class="footer">
+  Politécnico Grancolombiano · Plan de Desarrollo Institucional 2026–2030 · Dashboard Ejecutivo
+</footer>
+
+<script>
+let RAW_DATA = [{"Unidad": "VICERRECTORÍA DE CRECIMIENTO", "Area": "GERENCIA DE MATRICULAS", "Proceso": "MERCADEO ADMISIONES  Y MATRÍCULA", "SubProceso": "Inscripción, admisión y matrícula de estudiantes nuevos", "Lider": "LIBIA CABRA", "Reto": "Expansion internacional", "Descripcion": "Participar en ferias Latam a traves de Colombia Nos Une-Ministerio de Relaciones Exteriores y Procolombia", "EsProyecto": false, "Indicador": "1. Participación en ferias internacionales (3). 2. Número de convenios creados por feria (1) ", "Linea_VA": "Expansión", "Objetivo_VA": "Crecer con compromiso social ", "Entregable": "Informe de impacto de la Feria y convenios generados", "Linea PDI": "Expansión con compromiso", "Objetivo PDI": "Ampliar la presencia en América", "Desarrollo Sostenible": "", LineaPDI: "Expansión con compromiso", LineaPDIKey: "Expansión con compromiso", "Justificacion_Asignacion": "Coincidencia temática (alta) entre el reto y el objetivo PDI 'Ampliar la presencia en América...' según palabras clave, contexto VA (Expansión) y metas del catálogo."}];
+
+const LINEAS = [
+  { key: "Calidad e innovación educativa", color: "#FF0073", gradient: "linear-gradient(135deg, #FF0073 0%, #C40059 100%)", icon: "fa-solid fa-graduation-cap", badgeBg: "rgba(255,0,115,0.12)", badgeColor: "#FF0073" },
+  { key: "Expansión con compromiso", color: "#FFB500", gradient: "linear-gradient(135deg, #FFB500 0%, #D68F00 100%)", icon: "fa-solid fa-chart-line", badgeBg: "rgba(255,181,0,0.12)", badgeColor: "#B07800" },
+  { key: "Experiencia centrada en las personas", color: "#00B4E3", gradient: "linear-gradient(135deg, #00B4E3 0%, #0085AB 100%)", icon: "fa-solid fa-users", badgeBg: "rgba(0,180,227,0.12)", badgeColor: "#0085AB" },
+  { key: "Financiero", color: "#98CA00", gradient: "linear-gradient(135deg, #98CA00 0%, #72980A 100%)", icon: "fa-solid fa-coins", badgeBg: "rgba(152,202,0,0.12)", badgeColor: "#6B9600", dsGroup: "Desarrollo Sostenible" },
+  { key: "Ambiental", color: "#3AA76D", gradient: "linear-gradient(135deg, #3AA76D 0%, #1F6F52 100%)", icon: "fa-solid fa-tree", badgeBg: "rgba(58,167,109,0.12)", badgeColor: "#3AA76D", dsGroup: "Desarrollo Sostenible" },
+  { key: "Social", color: "#0D6E96", gradient: "linear-gradient(135deg, #0D6E96 0%, #084E6D 100%)", icon: "fa-solid fa-hands-holding-circle", badgeBg: "rgba(13,110,150,0.12)", badgeColor: "#0D6E96", dsGroup: "Desarrollo Sostenible" }
+];
+
+let selectedUnidad = "";
+let selectedArea = "";
+let activeView = "lineas";
+
+function cargarExcel(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const btn = document.querySelector(".btn-excel");
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Cargando...';
+  btn.disabled = true;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = new Uint8Array(e.target.result);
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheet = workbook.Sheets["Retos"];
+      if (!sheet) { alert("No se encontró la hoja 'Retos' en el archivo."); btn.innerHTML = '<i class="fa-solid fa-file-excel"></i> Cargar Excel'; btn.disabled = false; return; }
+      const json = XLSX.utils.sheet_to_json(sheet);
+      RAW_DATA = json.map(r => {
+        const lineaPDI = String(r["Linea PDI"] || "").trim();
+        const dsSub = String(r["Desarrollo Sostenible"] || "").trim();
+        const lineaPDIKey = normalizeLineaPDIKey(lineaPDI, dsSub);
+        return {
+          Unidad: r["Unidad"] || "", Area: r["Area"] || "", Proceso: r["Proceso"] || "", SubProceso: r["SubProceso"] || "",
+          Lider: r["Lider"] || "", Reto: r["Reto"] || "", Descripcion: r["Descripcion"] || "",
+          EsProyecto: (String(r["EsProyecto"] || "").toUpperCase() === "VERDADERO"),
+          Indicador: r["Indicador"] || "", Linea_VA: r["Linea_VA"] || "", Objetivo_VA: r["Objetivo_VA"] || "",
+          Entregable: r["Entregable"] || "", "Linea PDI": lineaPDI, "Objetivo PDI": r["Objetivo PDI"] || "",
+          DesarrolloSostenible: dsSub, LineaPDI: lineaPDI, LineaPDIKey: lineaPDIKey,
+          Justificacion_Asignacion: r["Justificacion_Asignacion"] || ""
+        };
+      });
+      document.getElementById("sel-unidad").innerHTML = '<option value="">Todas las Unidades</option>';
+      document.getElementById("sel-area").innerHTML = '<option value="">Todas las Áreas</option>';
+      selectedUnidad = ""; selectedArea = "";
+      populateUnidades(); renderBoard();
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Cargado';
+      setTimeout(() => { btn.innerHTML = '<i class="fa-solid fa-file-excel"></i> Cargar Excel'; btn.disabled = false; }, 2000);
+    } catch (err) { alert("Error al leer el archivo: " + err.message); btn.innerHTML = '<i class="fa-solid fa-file-excel"></i> Cargar Excel'; btn.disabled = false; }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function autoLoadExcel() {
+  fetch("Base_retos_DASHBOARD_PDI.xlsx").then(res => { if (!res.ok) throw new Error(); return res.arrayBuffer(); })
+    .then(buf => {
+      const data = new Uint8Array(buf);
+      const workbook = XLSX.read(data, { type: "array" });
+      const sheet = workbook.Sheets["Retos"];
+      if (!sheet) throw new Error();
+      return { workbook, sheet };
+    })
+    .catch(() => {
+      return fetch("Base retos.xlsx").then(res => { if (!res.ok) throw new Error(); return res.arrayBuffer(); }).then(buf => {
+        const data = new Uint8Array(buf);
+        const workbook = XLSX.read(data, { type: "array" });
+        const sheet = workbook.Sheets["Retos"];
+        if (!sheet) throw new Error();
+        return { workbook, sheet };
+      });
+    })
+    .then(({ sheet }) => {
+      const json = XLSX.utils.sheet_to_json(sheet);
+      RAW_DATA = json.map(r => {
+        const lineaPDI = String(r["Linea PDI"] || "").trim();
+        const dsSub = String(r["Desarrollo Sostenible"] || "").trim();
+        const lineaPDIKey = normalizeLineaPDIKey(lineaPDI, dsSub);
+        return {
+          Unidad: r["Unidad"] || "", Area: r["Area"] || "", Proceso: r["Proceso"] || "", SubProceso: r["SubProceso"] || "",
+          Lider: r["Lider"] || "", Reto: r["Reto"] || "", Descripcion: r["Descripcion"] || "",
+          EsProyecto: (String(r["EsProyecto"] || "").toUpperCase() === "VERDADERO"),
+          Indicador: r["Indicador"] || "", Linea_VA: r["Linea_VA"] || "", Objetivo_VA: r["Objetivo_VA"] || "",
+          Entregable: r["Entregable"] || "", "Linea PDI": lineaPDI, "Objetivo PDI": r["Objetivo PDI"] || "",
+          DesarrolloSostenible: dsSub, LineaPDI: lineaPDI, LineaPDIKey: lineaPDIKey,
+          Justificacion_Asignacion: r["Justificacion_Asignacion"] || ""
+        };
+      });
+      document.getElementById("sel-unidad").innerHTML = '<option value="">Todas las Unidades</option>';
+      document.getElementById("sel-area").innerHTML = '<option value="">Todas las Áreas</option>';
+      populateUnidades(); renderBoard();
+    })
+    .catch(() => {});
+}
+
+function init() {
+  if (RAW_DATA.length > 0) { populateUnidades(); renderBoard(); }
+  document.getElementById("loading").style.opacity = "0";
+  setTimeout(() => document.getElementById("loading").style.display = "none", 400);
+  autoLoadExcel();
+}
+
+function populateUnidades() {
+  const unidades = [...new Set(RAW_DATA.map(r => r.Unidad).filter(Boolean))].sort();
+  const sel = document.getElementById("sel-unidad");
+  unidades.forEach(u => { const opt = document.createElement("option"); opt.value = u; opt.textContent = u; sel.appendChild(opt); });
+}
+
+const UNIT_AREA_MAP = {
+  "VICERRECTORIA ACADEMICA": ["VICERRECTORÍA ACADÉMICA", "SECRETARIA ACADÉMICA", "FSCC", "FNGS", "FIDI"],
+  "VICERRECTORIA DEL ESTUDIANTE": ["VICERRECTORÍA DEL ESTUDIANTE", "GERENCIA DE TI", "GERENCIA DE SERVICIO Y PERMANENCIA", "GERENCIA DE OPERACIONES"],
+  "VICERRECTORIA DE CRECIMIENTO": ["VICERRECTORÍA DE CRECIMIENTO", "GERENCIA DE SERVICIOS CORPORATIVOS", "GERENCIA DE MERCADEO", "GERENCIA DE MATRICULAS"],
+  "VICERRECTORIA FINANCIERA": ["VICERRECTORÍA FINANCIERA", "DIRECCIÓN DE COMPRAS Y ABASTECIMIENTO", "DIRECCIÓN DE CONTABILIDAD", "DIRECCIÓN DE INFRAESTRUCTURA", "DIRECCIÓN DE RELACIONAMIENTO DE CSU", "DIRECCIÓN DE SERVICIOS ADMINISTRATIVOS", "DIRECCIÓN PLANEACIÓN FINANCIERA Y TESORERÍA"],
+  "SECRETARIA GENERAL": ["SECRETARIA GENERAL"],
+  "GERENCIA DE TALENTO HUMANO": ["GERENCIA DE TALENTO HUMANO"],
+  "GERENCIA DE PLANEACION Y GESTION INSTITUCIONAL": ["GERENCIA DE PLANEACIÓN Y GESTIÓN INSTITUCIONAL"],
+  "GERENCIA DE EDUCACION VIRTUAL": ["GERENCIA DE EDUCACIÓN VIRTUAL."]
+};
+
+// Map from the 8 defined units to the normalized keys used in UNIT_AREA_MAP
+const UNIDADES_DEFINIDAS = [
+  "VICERRECTORIA ACADÉMICA",
+  "VICERRECTORÍA DEL ESTUDIANTE",
+  "VICERRECTORÍA DE CRECIMIENTO",
+  "VICERRECTORÍA FINANCIERA",
+  "SECRETARIA GENERAL",
+  "GERENCIA DE TALENTO HUMANO",
+  "GERENCIA DE PLANEACIÓN Y GESTIÓN INSTITUCIONAL",
+  "GERENCIA DE EDUCACIÓN VIRTUAL."
+];
+
+function normalizeText(str) {
+  return String(str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toUpperCase();
+}
+
+function normalizeLineaPDIKey(lineaPDI, dsSub) {
+  const lineKey = normalizeText(lineaPDI);
+  if (lineKey === "DESARROLLO SOSTENIBLE") {
+    const subKey = normalizeText(dsSub) || "SOCIAL";
+    return {
+      "FINANCIERO": "Financiero",
+      "AMBIENTAL": "Ambiental",
+      "SOCIAL": "Social"
+    }[subKey] || "Social";
+  }
+  return {
+    "CALIDAD E INNOVACION EDUCATIVA": "Calidad e innovación educativa",
+    "EXPANSION CON COMPROMISO": "Expansión con compromiso",
+    "EXPERIENCIA CENTRADA EN LAS PERSONAS": "Experiencia centrada en las personas"
+  }[lineKey] || lineaPDI;
+}
+
+function getAreasForUnidad(unidad) {
+  return UNIT_AREA_MAP[normalizeText(unidad)] || [];
+}
+
+function populateAreas(unidad) {
+  const sel = document.getElementById("sel-area");
+  const prev = sel.value;
+  sel.innerHTML = '<option value="">Todas las Áreas</option>';
+  let areas = [];
+  if (unidad) {
+    areas = getAreasForUnidad(unidad);
+    if (!areas.length) {
+      const data = RAW_DATA.filter(r => normalizeText(r.Unidad) === normalizeText(unidad));
+      areas = [...new Set(data.map(r => r.Area).filter(Boolean))].sort();
+    }
+  } else {
+    areas = [...new Set(RAW_DATA.map(r => r.Area).filter(Boolean))].sort();
+  }
+  areas.forEach(a => { const opt = document.createElement("option"); opt.value = a; opt.textContent = a; sel.appendChild(opt); });
+  if (areas.includes(prev)) sel.value = prev;
+}
+
+function onUnidadChange() {
+  selectedUnidad = document.getElementById("sel-unidad").value;
+  populateAreas(selectedUnidad);
+  selectedArea = "";
+  document.getElementById("sel-area").value = "";
+  renderBoard();
+}
+
+function resetFilters() {
+  document.getElementById("sel-unidad").value = "";
+  document.getElementById("sel-area").value = "";
+  selectedUnidad = ""; selectedArea = "";
+  populateAreas(""); renderBoard();
+}
+
+function getFilterState() {
+  const unidad = document.getElementById("sel-unidad").value;
+  const area = document.getElementById("sel-area").value;
+  return { unidad, area };
+}
+
+function showAreaEnFicha() {
+  const { unidad, area } = getFilterState();
+  return activeView === "lineas" && Boolean(unidad) && !area;
+}
+
+function shouldShowAreaInCard() {
+  return activeView === "unidad" || showAreaEnFicha();
+}
+
+function getFiltered() {
+  const { unidad, area } = getFilterState();
+  return RAW_DATA.filter(r => {
+    if (unidad && r.Unidad !== unidad) return false;
+    if (area && r.Area !== area) return false;
+    return true;
+  });
+}
+
+function getUniqueRetos(data, lineaKey) {
+  const indexByKey = new Map();
+  const entregablesSeenByKey = new Map();
+  const result = [];
+  const incluirAreaEnClave = showAreaEnFicha();
+  for (const row of data) {
+    if (row.LineaPDIKey !== lineaKey) continue;
+    const retoKey = (row.Reto || "").trim().toLowerCase();
+    if (!retoKey) continue;
+    const key = incluirAreaEnClave
+      ? `${retoKey}|${(row.Area || "").trim().toLowerCase()}`
+      : retoKey;
+    const entregable = (row.Entregable || "").trim();
+    const entregableKey = entregable.toLowerCase().replace(/\s+/g, " ");
+
+    if (!indexByKey.has(key)) {
+      const merged = Object.assign({}, row, { EntregablesList: [] });
+      if (entregable) {
+        merged.EntregablesList.push(entregable);
+        entregablesSeenByKey.set(key, new Set([entregableKey]));
+      } else {
+        entregablesSeenByKey.set(key, new Set());
+      }
+      indexByKey.set(key, merged);
+      result.push(merged);
+    } else if (entregable) {
+      const seenSet = entregablesSeenByKey.get(key);
+      if (!seenSet.has(entregableKey)) {
+        seenSet.add(entregableKey);
+        indexByKey.get(key).EntregablesList.push(entregable);
+      }
+    }
+  }
+  return result;
+}
+
+function getUniqueLiders(data) {
+  const liders = new Set();
+  data.forEach(r => { if (r.Lider && r.Lider.trim()) liders.add(r.Lider.trim()); });
+  return [...liders];
+}
+
+function getLineasConRetos(data) {
+  const result = [];
+  LINEAS.forEach(l => {
+    const retos = getUniqueRetos(data, l.key);
+    if (retos.length > 0) result.push({ linea: l, retos });
+  });
+  return result;
+}
+
+function getDashboardStats(data) {
+  const allSeen = new Set();
+  let totalRetos = 0, totalProyectos = 0;
+  getLineasConRetos(data).forEach(({ retos }) => {
+    retos.forEach(r => {
+      const k = (r.Reto || "").trim().toLowerCase();
+      if (!allSeen.has(k)) { allSeen.add(k); totalRetos++; }
+      if (r.EsProyecto) totalProyectos++;
+    });
+  });
+  return { totalRetos, totalProyectos, liders: getUniqueLiders(data) };
+}
+
+function hexArgb(hex) {
+  return "FF" + String(hex || "#000000").replace("#", "").toUpperCase();
+}
+
+function borderThin(color) {
+  const c = { argb: hexArgb(color || "#E2E8F0") };
+  return { top: c, left: c, bottom: c, right: c };
+}
+
+async function exportExcel() {
+  const btn = document.querySelector(".btn-export-xlsx");
+  if (typeof ExcelJS === "undefined") {
+    alert("No se cargó la librería Excel. Verifique su conexión e intente de nuevo.");
+    return;
+  }
+  if (RAW_DATA.length === 0) {
+    alert("Primero cargue el archivo Base retos.xlsx con el botón «Cargar Excel».");
+    return;
+  }
+
+  const filtered = getFiltered();
+  const prevHtml = btn.innerHTML;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generando...';
+  btn.disabled = true;
+
+  try {
+    const unidad = document.getElementById("sel-unidad").value || "Todas";
+    const area = document.getElementById("sel-area").value || "Todas";
+    const stats = getDashboardStats(filtered);
+    const liderStr = stats.liders.length ? stats.liders.join(", ") : "—";
+    const filename = `PDI_${unidad.replace(/\s+/g, "_")}_${area.replace(/\s+/g, "_")}_2026-2030.xlsx`;
+    const unidadGroups = activeView === "unidad" ? getUnidadGroups(filtered) : null;
+    if (activeView === "unidad" && (!unidadGroups || unidadGroups.length === 0)) {
+      alert("No hay retos para exportar con los filtros actuales.");
+      btn.innerHTML = prevHtml;
+      btn.disabled = false;
+      return;
+    }
+    const lineasConRetos = activeView === "lineas" ? getLineasConRetos(filtered) : null;
+    if (activeView === "lineas" && (!lineasConRetos || lineasConRetos.length === 0)) {
+      alert("No hay retos para exportar con los filtros actuales.");
+      btn.innerHTML = prevHtml;
+      btn.disabled = false;
+      return;
+    }
+
+    let wb = new ExcelJS.Workbook();
+    wb.creator = "Dashboard PDI";
+    wb.created = new Date();
+
+    if (activeView === "unidad") {
+      const ws = wb.addWorksheet("Retos por Unidad", {
+        views: [{ showGridLines: false }],
+        properties: { defaultRowHeight: 16 }
+      });
+      ws.columns = [
+        { header: "UNIDAD", key: "unidad", width: 28 },
+        { header: "ÁREA", key: "area", width: 28 },
+        { header: "RETO", key: "reto", width: 40 },
+        { header: "OBJETIVO PDI", key: "objetivo", width: 42 },
+        { header: "ENTREGABLE(S)", key: "entregable", width: 42 },
+        { header: "INDICADOR", key: "indicador", width: 36 }
+      ];
+      ws.getRow(1).font = { bold: true, color: { argb: "FF0F172A" } };
+      let currentRow = 3;
+      ws.mergeCells(1, 1, 1, 6);
+      const titleCell = ws.getCell(1, 1);
+      titleCell.value = {
+        richText: [
+          { text: "Retos por Unidad - ", font: { name: "Calibri", size: 16, bold: true, color: { argb: "FF0F172A" } } },
+          { text: "PDI 2026-2030", font: { name: "Calibri", size: 16, italic: true, color: { argb: "FFFF0073" } } }
+        ]
+      };
+      titleCell.alignment = { vertical: "middle", horizontal: "left" };
+      ws.getRow(2).height = 6;
+      unidadGroups.forEach(group => {
+        ws.mergeCells(currentRow, 1, currentRow, 6);
+        const headerCell = ws.getCell(currentRow, 1);
+        headerCell.value = `${group.header} (${group.items.length})`;
+        headerCell.font = { bold: true, color: { argb: "FFFFFFFF" } };
+        headerCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FF0F172A" } };
+        headerCell.alignment = { vertical: "middle", horizontal: "left", indent: 1 };
+        ws.getRow(currentRow).height = 24;
+        currentRow += 1;
+        ws.getRow(currentRow).values = ["UNIDAD", "ÁREA", "RETO", "OBJETIVO PDI", "ENTREGABLES", "INDICADOR"];
+        ws.getRow(currentRow).font = { bold: true, color: { argb: "FF475569" } };
+        currentRow += 1;
+        group.items.forEach(item => {
+          ws.addRow({
+            unidad: item.Unidad,
+            area: item.Area,
+            reto: item.Reto,
+            objetivo: item["Objetivo PDI"],
+            entregable: Array.isArray(item.EntregablesList) && item.EntregablesList.length ? item.EntregablesList.join("\n") : (item.Entregable || ""),
+            indicador: item.Indicador || ""
+          });
+          const row = ws.getRow(currentRow);
+          row.alignment = { wrapText: true, vertical: "top" };
+          row.height = 24;
+          currentRow += 1;
+        });
+        currentRow += 1;
+      });
+      ws.pageSetup = {
+        orientation: "landscape",
+        fitToPage: true,
+        fitToWidth: 1,
+        fitToHeight: 0,
+        margins: { left: 0.5, right: 0.4, top: 0.5, bottom: 0.5, header: 0.2, footer: 0.2 }
+      };
+      const buffer = await wb.xlsx.writeBuffer();
+      const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> Exportado';
+      setTimeout(() => { btn.innerHTML = prevHtml; btn.disabled = false; }, 2000);
+      return;
+    }
+
+    const MARGIN_COL = 1;
+    const BLOCK_COLS = 4;
+    const SPAN = 3;
+    const numBlocks = lineasConRetos.length;
+    const contentStartCol = MARGIN_COL + 1;
+    const lastColNum = MARGIN_COL + numBlocks * BLOCK_COLS;
+    const colBlockStart = (idx) => MARGIN_COL + idx * BLOCK_COLS + 1;
+
+    wb.creator = "Dashboard PDI";
+    wb.created = new Date();
+    const ws = wb.addWorksheet("Dashboard PDI", {
+      views: [{ showGridLines: false }],
+      properties: { defaultRowHeight: 16 }
+    });
+
+    ws.getColumn(MARGIN_COL).width = 3;
+    for (let b = 0; b < numBlocks; b++) {
+      const base = colBlockStart(b);
+      ws.getColumn(base).width = 26;
+      ws.getColumn(base + 1).width = 26;
+      ws.getColumn(base + 2).width = 26;
+      if (b < numBlocks - 1) ws.getColumn(base + 3).width = 1.5;
+    }
+
+    ws.mergeCells(1, contentStartCol, 1, lastColNum);
+    const titleCell = ws.getCell(1, contentStartCol);
+    titleCell.value = {
+      richText: [
+        { text: "Retos asociados al ", font: { name: "Calibri", size: 18, bold: true, color: { argb: "FF0F172A" } } },
+        { text: "PDI 2026-2030", font: { name: "Calibri", size: 18, bold: true, italic: true, color: { argb: "FFFF0073" } } }
+      ]
+    };
+    titleCell.alignment = { vertical: "middle", horizontal: "left" };
+    titleCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFFFF" } };
+    ws.getRow(1).height = 32;
+
+    const ctxLabels = ["UNIDAD", "ÁREA", "LÍDER", "TOTAL RETOS", "PROYECTOS"];
+    const ctxValues = [unidad, area, liderStr, String(stats.totalRetos), String(stats.totalProyectos)];
+    let ctxCol = contentStartCol;
+    ctxLabels.forEach((label, i) => {
+      const lc = ws.getCell(2, ctxCol);
+      lc.value = label;
+      lc.font = { size: 8, bold: true, color: { argb: "FF94A3B8" } };
+      lc.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF8FAFC" } };
+      const vc = ws.getCell(3, ctxCol);
+      ws.mergeCells(3, ctxCol, 3, ctxCol + 1);
+      vc.value = ctxValues[i];
+      vc.font = { size: 10, bold: true, color: { argb: "FF0F172A" } };
+      vc.alignment = { wrapText: true, vertical: "top" };
+      ctxCol += 2;
+    });
+    ws.getRow(2).height = 14;
+    ws.getRow(3).height = 22;
+
+    ws.mergeCells(4, contentStartCol, 4, lastColNum);
+    ws.getCell(4, contentStartCol).border = { bottom: { style: "medium", color: { argb: "FFE2E8F0" } } };
+    ws.getRow(4).height = 6;
+
+    const rowPtr = lineasConRetos.map(() => 5);
+
+    lineasConRetos.forEach(({ linea, retos }, idx) => {
+      const colStart = colBlockStart(idx);
+      const r = rowPtr[idx];
+
+      ws.mergeCells(r, colStart, r, colStart + SPAN - 1);
+      const hCell = ws.getCell(r, colStart);
+      hCell.value = `${linea.key}  (${retos.length})`;
+      hCell.font = { name: "Calibri", size: 11, bold: true, color: { argb: "FFFFFFFF" } };
+      hCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: hexArgb(linea.color) } };
+      hCell.alignment = { vertical: "middle", horizontal: "left", wrapText: true, indent: 1 };
+      hCell.border = borderThin(linea.color);
+      ws.getRow(r).height = 28;
+      rowPtr[idx] = r + 1;
+
+      retos.forEach(reto => {
+        const cardStart = rowPtr[idx];
+        const retoName = (reto.Reto || "").trim();
+        const objetivo = (reto["Objetivo PDI"] || "").trim();
+        const entregablesList = Array.isArray(reto.EntregablesList) && reto.EntregablesList.length
+          ? reto.EntregablesList
+          : ((reto.Entregable || "").trim() ? [(reto.Entregable || "").trim()] : []);
+        const indicador = (reto.Indicador || "").trim();
+        const proyecto = reto.EsProyecto ? "  [PROYECTO]" : "";
+
+        ws.mergeCells(cardStart, colStart, cardStart, colStart + SPAN - 1);
+        const nameCell = ws.getCell(cardStart, colStart);
+        nameCell.value = retoName + proyecto;
+        nameCell.font = { size: 10, bold: true, color: { argb: "FF0F172A" } };
+        nameCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFF4F6FA" } };
+        nameCell.alignment = { wrapText: true, vertical: "top", indent: 1 };
+        nameCell.border = {
+          top: { style: "thin", color: { argb: hexArgb("#E2E8F0") } },
+          left: { style: "medium", color: { argb: hexArgb(linea.color) } },
+          bottom: { style: "thin", color: { argb: hexArgb("#E2E8F0") } },
+          right: { style: "thin", color: { argb: hexArgb("#E2E8F0") } }
+        };
+        ws.getRow(cardStart).height = 22;
+        let cur = cardStart + 1;
+
+        const addField = (label, text) => {
+          if (!text) return;
+          ws.mergeCells(cur, colStart, cur, colStart + SPAN - 1);
+          const labelCell = ws.getCell(cur, colStart);
+          labelCell.value = label;
+          labelCell.font = { size: 8, bold: true, color: { argb: "FF64748B" } };
+          labelCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFFFF" } };
+          cur++;
+          ws.mergeCells(cur, colStart, cur, colStart + SPAN - 1);
+          const valCell = ws.getCell(cur, colStart);
+          valCell.value = text;
+          valCell.font = { size: 9, color: { argb: "FF475569" } };
+          valCell.alignment = { wrapText: true, vertical: "top", indent: 1 };
+          valCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFFFF" } };
+          valCell.border = {
+            left: { style: "medium", color: { argb: hexArgb(linea.color) } },
+            right: { style: "thin", color: { argb: hexArgb("#E2E8F0") } }
+          };
+          let totalLines = 0;
+          String(text).split("\n").forEach(line => {
+            totalLines += Math.max(1, Math.ceil(line.length / 55));
+          });
+          ws.getRow(cur).height = Math.min(180, 14 + totalLines * 11);
+          cur++;
+        };
+
+        const addEntregablesField = (items) => {
+          if (!items || !items.length) return;
+          if (items.length === 1) {
+            addField("ENTREGABLE", items[0]);
+            return;
+          }
+          const text = items.map(e => "• " + e).join("\n");
+          addField("ENTREGABLES", text);
+        };
+
+        if (showAreaEnFicha()) addField("ÁREA RESPONSABLE", (reto.Area || "").trim());
+        addField("OBJETIVO PDI", objetivo);
+        addEntregablesField(entregablesList);
+        addField("INDICADOR", indicador);
+
+        ws.mergeCells(cur, colStart, cur, colStart + SPAN - 1);
+        ws.getCell(cur, colStart).border = {
+          bottom: { style: "thin", color: { argb: hexArgb("#E2E8F0") } },
+          left: { style: "medium", color: { argb: hexArgb(linea.color) } },
+          right: { style: "thin", color: { argb: hexArgb("#E2E8F0") } }
+        };
+        ws.getRow(cur).height = 6;
+        rowPtr[idx] = cur + 2;
+      });
+    });
+
+    const maxRow = Math.max(...rowPtr) + 1;
+    for (let r = 1; r <= maxRow; r++) {
+      const marginCell = ws.getCell(r, MARGIN_COL);
+      marginCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFFFF" } };
+      marginCell.border = {};
+    }
+    ws.mergeCells(maxRow, contentStartCol, maxRow, lastColNum);
+    const foot = ws.getCell(maxRow, contentStartCol);
+    foot.value = "Politécnico Grancolombiano · Plan de Desarrollo Institucional 2026–2030 · Dashboard Ejecutivo";
+    foot.font = { size: 8, italic: true, color: { argb: "FF94A3B8" } };
+    foot.alignment = { horizontal: "center", vertical: "middle" };
+    foot.border = { top: { style: "thin", color: { argb: hexArgb("#E2E8F0") } } };
+    ws.getRow(maxRow).height = 18;
+
+    ws.pageSetup = {
+      orientation: "landscape",
+      fitToPage: true,
+      fitToWidth: 1,
+      fitToHeight: 0,
+      margins: { left: 0.5, right: 0.4, top: 0.5, bottom: 0.5, header: 0.2, footer: 0.2 }
+    };
+
+    const buffer = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Exportado';
+    setTimeout(() => { btn.innerHTML = prevHtml; btn.disabled = false; }, 2000);
+  } catch (e) {
+    alert("Error al generar Excel: " + e.message);
+    btn.innerHTML = prevHtml;
+    btn.disabled = false;
+  }
+}
+
+function renderBoard() {
+  const filtered = getFiltered();
+  const unidad = document.getElementById("sel-unidad").value;
+  const area = document.getElementById("sel-area").value;
+  selectedArea = area; selectedUnidad = unidad;
+  document.getElementById("ctx-unidad").textContent = unidad || "Todas las unidades";
+  document.getElementById("ctx-area").textContent = area || "Todas las áreas";
+  const liders = getUniqueLiders(filtered);
+  document.getElementById("ctx-lider").textContent = liders.length ? liders.join(", ") : "—";
+  const allSeen = new Set(); let totalRetos = 0; let totalProyectos = 0;
+  LINEAS.forEach(l => {
+    const retos = getUniqueRetos(filtered, l.key);
+    retos.forEach(r => { const k = (r.Reto || "").trim().toLowerCase(); if (!allSeen.has(k)) { allSeen.add(k); totalRetos++; } if (r.EsProyecto) totalProyectos++; });
+  });
+  document.getElementById("ctx-total").textContent = totalRetos;
+  document.getElementById("ctx-proyectos").textContent = totalProyectos;
+  document.getElementById("stat-retos").textContent = totalRetos;
+  const board = document.getElementById("board"); board.innerHTML = "";
+  if (RAW_DATA.length === 0) {
+    board.style.gridTemplateColumns = "repeat(4, 1fr)";
+    const placeholderLines = activeView === "unidad" ? [{ key: "Unidad" }, { key: "Área" }] : LINEAS;
+    placeholderLines.forEach(l => {
+      const wrap = document.createElement("div"); wrap.className = "col-wrap";
+      const h = document.createElement("div"); h.className = "col-header"; h.style.background = activeView === "unidad" ? "linear-gradient(135deg, #94A3B8 0%, #64748B 100%)" : l.gradient;
+      h.innerHTML = `<div class="col-header-top"><div class="col-icon"><i class="${activeView === "unidad" ? "fa-solid fa-building" : l.icon}"></i></div><span class="col-badge">0</span></div><div class="col-name">${l.key}</div>`;
+      const b = document.createElement("div"); b.className = "col-body";
+      b.innerHTML = `<div class="empty-state"><i class="fa-solid fa-file-excel"></i><p>Cargue el archivo Base retos.xlsx con el botón "Cargar Excel"</p></div>`;
+      wrap.appendChild(h); wrap.appendChild(b); board.appendChild(wrap);
+    });
+    return;
+  }
+
+  if (activeView === "lineas") {
+    const lineasConRetos = [];
+    LINEAS.forEach(l => {
+      const retos = getUniqueRetos(filtered, l.key);
+      if (retos.length > 0) lineasConRetos.push({ linea: l, retos });
+    });
+    if (lineasConRetos.length === 0) {
+      board.innerHTML = `<div class="empty-state" style="grid-column:1/-1;padding:60px"><i class="fa-regular fa-circle-dot"></i><p>Sin retos para este filtro</p></div>`;
+      return;
+    }
+    board.style.gridTemplateColumns = `repeat(${lineasConRetos.length}, 1fr)`;
+    lineasConRetos.forEach(({ linea, retos }) => {
+      const wrap = document.createElement("div"); wrap.className = "col-wrap";
+      const header = document.createElement("div"); header.className = "col-header"; header.style.background = linea.gradient;
+      header.innerHTML = `<div class="col-header-top"><div class="col-icon"><i class="${linea.icon}"></i></div><span class="col-badge">${retos.length}</span></div><div class="col-name">${linea.key}</div>`;
+      const body = document.createElement("div"); body.className = "col-body";
+      retos.forEach(r => body.appendChild(createCard(r, linea)));
+      wrap.appendChild(header); wrap.appendChild(body); board.appendChild(wrap);
+    });
+    return;
+  }
+
+  const unidadGroups = getUnidadGroups(filtered);
+  if (unidadGroups.length === 0) {
+    board.innerHTML = `<div class="empty-state" style="grid-column:1/-1;padding:60px"><i class="fa-regular fa-circle-dot"></i><p>Sin retos para este filtro</p></div>`;
+    return;
+  }
+  board.style.gridTemplateColumns = `repeat(${unidadGroups.length}, 1fr)`;
+  unidadGroups.forEach(group => {
+    const wrap = document.createElement("div"); wrap.className = "col-wrap";
+    const header = document.createElement("div"); header.className = "col-header"; header.style.background = "linear-gradient(135deg, #0F172A 0%, #475569 100%)";
+    header.innerHTML = `<div class="col-header-top"><div class="col-icon"><i class="fa-solid fa-layer-group"></i></div><span class="col-badge">${group.items.length}</span></div><div class="col-name">${group.header}</div>`;
+    const body = document.createElement("div"); body.className = "col-body";
+    group.items.forEach(r => body.appendChild(createCard(r, { color: "#0F172A", badgeBg: "rgba(15,23,42,0.12)", badgeColor: "#0F172A" })));
+    wrap.appendChild(header); wrap.appendChild(body); board.appendChild(wrap);
+  });
+}
+
+function createCard(r, linea) {
+  const card = document.createElement("div");
+  card.className = "reto-card";
+  const retoName = (r.Reto || "").trim();
+  const entregablesList = Array.isArray(r.EntregablesList) && r.EntregablesList.length
+    ? r.EntregablesList
+    : ((r.Entregable || "").trim() ? [(r.Entregable || "").trim()] : []);
+  const indicador = (r.Indicador || "").trim();
+  const esProyecto = r.EsProyecto;
+  const objetivo = (r["Objetivo PDI"] || "").trim();
+  const areaResp = (r.Area || "").trim();
+  let badge = "";
+  if (esProyecto) {
+    badge = `<span class="badge-proyecto" style="background:${linea.badgeBg};color:${linea.color}"><i class="fa-solid fa-rocket" style="font-size:9px"></i> Proyecto</span>`;
+  }
+  const metaItems = [];
+  if (shouldShowAreaInCard() && areaResp) {
+    metaItems.push(`<div class="meta-row"><i class="fa-solid fa-building meta-icon"></i><div class="meta-text"><strong>Área responsable</strong>${escHtml(areaResp)}</div></div>`);
+  }
+  if (objetivo) metaItems.push(`<div class="meta-row"><i class="fa-solid fa-crosshairs meta-icon"></i><div class="meta-text"><strong>Objetivo PDI</strong>${escHtml(objetivo)}</div></div>`);
+  if (entregablesList.length === 1) {
+    metaItems.push(`<div class="meta-row"><i class="fa-solid fa-box meta-icon"></i><div class="meta-text"><strong>Entregable</strong>${escHtml(entregablesList[0])}</div></div>`);
+  } else if (entregablesList.length > 1) {
+    const items = entregablesList.map(e => `<li>${escHtml(e)}</li>`).join("");
+    metaItems.push(`<div class="meta-row"><i class="fa-solid fa-box meta-icon"></i><div class="meta-text"><strong>Entregables</strong><ul class="meta-list">${items}</ul></div></div>`);
+  }
+  if (indicador) metaItems.push(`<div class="meta-row"><i class="fa-solid fa-chart-simple meta-icon"></i><div class="meta-text"><strong>Indicador</strong>${escHtml(indicador)}</div></div>`);
+  const meta = metaItems.length ? `<div class="reto-meta">${metaItems.join("")}</div>` : "";
+  card.innerHTML = `<div class="reto-card-top"><div class="reto-name">${escHtml(retoName)}</div>${badge}</div>${meta}`;
+  card.style.borderLeft = `3px solid ${linea.color}`;
+  return card;
+}
+
+// ─── EXPORT PDF (texto seleccionable, estilo del dashboard, máx. 2 páginas) ───
+function exportPDF() {
+  const btn = document.querySelector(".btn-export");
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generando...';
+  btn.disabled = true;
+
+  setTimeout(() => {
+    try {
+      const filtered = getFiltered();
+      const unidad = document.getElementById("sel-unidad").value;
+      const area = document.getElementById("sel-area").value;
+      const filename = `PDI_${(unidad || "Todas").replace(/\s+/g, "_")}_${(area || "Todas").replace(/\s+/g, "_")}_2026-2030`;
+
+      const boardEl = document.getElementById("board");
+      const printBoard = boardEl.cloneNode(true);
+      printBoard.id = "pdf-board";
+      printBoard.classList.add("pdf-board");
+
+      printBoard.querySelectorAll(".col-wrap").forEach(w => {
+        if (w.querySelector(".empty-state")) w.remove();
+      });
+
+      printBoard.style.display = "";
+      printBoard.style.gridTemplateColumns = "";
+      printBoard.style.maxWidth = "100%";
+      const colCount = printBoard.querySelectorAll(".col-wrap").length || 1;
+      printBoard.style.setProperty("--pdf-cols", String(colCount));
+
+      const heroClone = document.querySelector(".hero-inner").cloneNode(true);
+      heroClone.classList.add("pdf-hero");
+
+      const styles = document.querySelector("style").innerHTML;
+      const printHtml = `<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="UTF-8">
+<title>${escHtml(filename)}</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  @page { size: A4 landscape; margin: 8mm 7mm; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'DM Sans', Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    color: #0F172A;
+    background: #F4F6FA;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  ${styles}
+  .pdf-scale-wrap { width: 100%; padding: 0; }
+  .pdf-doc .header, .pdf-doc .filters-bar, .pdf-doc .board:not(.pdf-board),
+  .pdf-doc .header-actions, .pdf-doc .btn-export, .pdf-doc .btn-excel { display: none !important; }
+  @media print {
+    html, body { background: #fff; }
+    .pdf-hint { display: none !important; }
+    .pdf-scale-wrap { overflow: visible; }
+    .pdf-doc .pdf-board { display: grid !important; }
+  }
+</style>
+</head>
+<body class="pdf-doc">
+  <p class="pdf-hint" style="margin:0 0 8px;font-size:9pt;color:#64748B;background:#EFF6FF;padding:8px 10px;border-radius:6px;border:1px solid #BAE6FD;">
+    Al guardar como PDF, active <strong>Gráficos de fondo</strong> en el diálogo de impresión para conservar los colores del dashboard. El texto será seleccionable (no es imagen).
+  </p>
+  <div id="pdf-scale-wrap" class="pdf-scale-wrap">
+    ${heroClone.outerHTML}
+    ${printBoard.outerHTML}
+    <div class="pdf-footer">Politécnico Grancolombiano · Plan de Desarrollo Institucional 2026–2030 · Dashboard Ejecutivo</div>
+  </div>
+  <script>
+    var pdfSourceHtml = "";
+
+    function pageHeightPx() {
+      return (210 - 16) * 96 / 25.4;
+    }
+
+    function setPdfScale(s) {
+      document.documentElement.style.setProperty("--pdf-scale", String(s));
+    }
+
+    function measureEl(el) {
+      return el ? el.getBoundingClientRect().height : 0;
+    }
+
+    function savePdfSource() {
+      var wrap = document.getElementById("pdf-scale-wrap");
+      if (wrap) pdfSourceHtml = wrap.outerHTML;
+    }
+
+    function restorePdfSource() {
+      if (!pdfSourceHtml) return;
+      var tmp = document.createElement("div");
+      tmp.innerHTML = pdfSourceHtml;
+      var cur = document.getElementById("pdf-scale-wrap");
+      if (cur) cur.replaceWith(tmp.firstElementChild);
+    }
+
+    function splitColumnsIntoPages(board, availP1) {
+      var cols = board.querySelectorAll(".col-wrap");
+      var p1 = [], p2 = [];
+
+      cols.forEach(function(col) {
+        var header = col.querySelector(".col-header");
+        var cards = Array.from(col.querySelectorAll(".reto-card"));
+        var headerH = measureEl(header);
+        var gap = 5;
+        var used = headerH + gap;
+        var c1 = [], c2 = [];
+
+        cards.forEach(function(card) {
+          var h = measureEl(card) + gap;
+          if (c2.length === 0 && used + h <= availP1) {
+            c1.push(card.cloneNode(true));
+            used += h;
+          } else {
+            c2.push(card.cloneNode(true));
+          }
+        });
+
+        if (c1.length === 0 && c2.length > 0 && headerH + gap + measureEl(cards[0]) <= availP1) {
+          c1.push(c2.shift());
+        }
+
+        p1.push({ header: header.cloneNode(true), cards: c1, continued: false });
+        p2.push({ header: header.cloneNode(true), cards: c2, continued: c1.length > 0 && c2.length > 0 });
+      });
+
+      return { p1: p1, p2: p2 };
+    }
+
+    function buildColWrap(data) {
+      var wrap = document.createElement("div");
+      wrap.className = "col-wrap";
+      wrap.appendChild(data.header);
+      var body = document.createElement("div");
+      body.className = "col-body";
+      data.cards.forEach(function(c) { body.appendChild(c); });
+      wrap.appendChild(body);
+      if (data.continued) {
+        var lbl = document.createElement("div");
+        lbl.className = "pdf-page-label";
+        lbl.textContent = "(continúa)";
+        wrap.appendChild(lbl);
+      }
+      return wrap;
+    }
+
+    function buildBoard(colsData) {
+      var board = document.createElement("div");
+      board.className = "pdf-board";
+      colsData.forEach(function(col) {
+        if (col.cards.length === 0) return;
+        board.appendChild(buildColWrap(col));
+      });
+      return board;
+    }
+
+    function paginatePdf() {
+      var hint = document.querySelector(".pdf-hint");
+      if (hint) hint.style.display = "none";
+
+      var wrap = document.getElementById("pdf-scale-wrap");
+      var hero = wrap.querySelector(".pdf-hero");
+      var board = wrap.querySelector(".pdf-board");
+      var footer = wrap.querySelector(".pdf-footer");
+      if (!hero || !board) return;
+
+      var colCount = board.querySelectorAll(".col-wrap").length || 1;
+      var pad = 14;
+      void document.body.offsetHeight;
+
+      var heroH = measureEl(hero);
+      var footerH = measureEl(footer);
+      var availP1 = pageHeightPx() - heroH - pad;
+
+      var split = splitColumnsIntoPages(board, availP1);
+      var hasP2 = split.p2.some(function(c) { return c.cards.length > 0; });
+
+      var page1 = document.createElement("div");
+      page1.className = "pdf-page";
+      page1.appendChild(hero.cloneNode(true));
+      var b1 = buildBoard(split.p1);
+      b1.style.setProperty("--pdf-cols", String(colCount));
+      if (b1.children.length) page1.appendChild(b1);
+
+      var root = document.createElement("div");
+      root.id = "pdf-scale-wrap";
+      root.className = "pdf-scale-wrap";
+      root.appendChild(page1);
+
+      if (hasP2) {
+        var page2 = document.createElement("div");
+        page2.className = "pdf-page";
+        var b2 = buildBoard(split.p2);
+        b2.style.setProperty("--pdf-cols", String(colCount));
+        if (b2.children.length) page2.appendChild(b2);
+        page2.appendChild(footer.cloneNode(true));
+        root.appendChild(page2);
+      } else {
+        page1.appendChild(footer.cloneNode(true));
+      }
+
+      wrap.replaceWith(root);
+    }
+
+    function layoutOverflows() {
+      var pageH = pageHeightPx();
+      return Array.from(document.querySelectorAll(".pdf-page")).some(function(p) {
+        return p.scrollHeight > pageH + 10;
+      });
+    }
+
+    function optimizeScale() {
+      var lo = 0.48, hi = 1.0;
+      for (var i = 0; i < 14; i++) {
+        var mid = (lo + hi) / 2;
+        restorePdfSource();
+        setPdfScale(mid);
+        paginatePdf();
+        void document.body.offsetHeight;
+        if (!layoutOverflows() && document.querySelectorAll(".pdf-page").length <= 2) lo = mid;
+        else hi = mid;
+      }
+      restorePdfSource();
+      setPdfScale(lo);
+      paginatePdf();
+    }
+
+    function waitForFonts() {
+      if (document.fonts && document.fonts.ready) return document.fonts.ready;
+      return new Promise(function(r) { setTimeout(r, 600); });
+    }
+
+    savePdfSource();
+    waitForFonts().then(function() {
+      optimizeScale();
+      setTimeout(function() {
+        window.focus();
+        window.print();
+      }, 500);
+    });
+  <\/script>
+</body></html>`;
+
+      const win = window.open("", "_blank", "width=1100,height=800,menubar=no,toolbar=no,location=no,status=no");
+      if (!win) {
+        alert("Permita ventanas emergentes para generar el PDF, o use Ctrl+P en el dashboard.");
+        btn.innerHTML = '<i class="fa-solid fa-file-pdf"></i> Exportar PDF';
+        btn.disabled = false;
+        return;
+      }
+      win.document.open();
+      win.document.write(printHtml);
+      win.document.close();
+    } catch (e) {
+      alert("Error al generar PDF: " + e.message);
+      btn.innerHTML = '<i class="fa-solid fa-file-pdf"></i> Exportar PDF';
+      btn.disabled = false;
+    }
+
+    setTimeout(() => {
+      btn.innerHTML = '<i class="fa-solid fa-file-pdf"></i> Exportar PDF';
+      btn.disabled = false;
+    }, 2500);
+  }, 300);
+}
+
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function setView(view) {
+  if (activeView === view) return;
+  activeView = view;
+  document.querySelectorAll('.view-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
+
+  const filterUnidadGroup = document.getElementById('filter-unidad-group');
+  const filterUnidadLineaGroup = document.getElementById('filter-unidad-linea-group');
+  const areaFilterGroup = document.getElementById('area-filter-group');
+
+  if (view === 'unidad_linea') {
+    // New tab: Retos por Unidad - show units selector, hide area filter
+    filterUnidadGroup.style.display = 'none';
+    filterUnidadLineaGroup.style.display = 'flex';
+    areaFilterGroup.style.display = 'none';
+  } else if (view === 'unidad') {
+    // Old tab: Retos por Área - hide area filter
+    filterUnidadGroup.style.display = 'flex';
+    filterUnidadLineaGroup.style.display = 'none';
+    areaFilterGroup.style.display = 'none';
+    selectedArea = "";
+    const areaSelect = document.getElementById('sel-area');
+    if (areaSelect) areaSelect.value = "";
+  } else {
+    // lineas tab
+    filterUnidadGroup.style.display = 'flex';
+    filterUnidadLineaGroup.style.display = 'none';
+    areaFilterGroup.style.display = 'flex';
+  }
+
+  if (view !== 'unidad_linea') {
+    populateAreas(document.getElementById('sel-unidad').value);
+  }
+  renderBoard();
+}
+
+function getUniqueRetosForUnidad(data) {
+  const indexByKey = new Map();
+  const result = [];
+  for (const row of data) {
+    const retoKey = (row.Reto || "").trim().toLowerCase();
+    if (!retoKey) continue;
+    if (!indexByKey.has(retoKey)) {
+      const merged = Object.assign({}, row, { EntregablesList: [] });
+      const entregable = (row.Entregable || "").trim();
+      if (entregable) merged.EntregablesList.push(entregable);
+      indexByKey.set(retoKey, merged);
+      result.push(merged);
+    } else {
+      const existing = indexByKey.get(retoKey);
+      const entregable = (row.Entregable || "").trim();
+      if (entregable && !existing.EntregablesList.includes(entregable)) {
+        existing.EntregablesList.push(entregable);
+      }
+    }
+  }
+  return result;
+}
+
+function getUnidadGroups(data) {
+  const { unidad, area } = getFilterState();
+  if (!unidad) {
+    const grupos = [...new Set(data.map(r => r.Unidad).filter(Boolean))].sort();
+    return grupos.map(u => ({ header: u, items: getUniqueRetosForUnidad(data.filter(r => normalizeText(r.Unidad) === normalizeText(u))) }));
+  }
+  const itemScope = data.filter(r => normalizeText(r.Unidad) === normalizeText(unidad));
+  if (!area) {
+    return [{ header: unidad, items: getUniqueRetosForUnidad(itemScope) }];
+  }
+  const mappedAreas = getAreasForUnidad(unidad);
+  const areas = area ? [area] : (mappedAreas.length ? mappedAreas : [...new Set(itemScope.map(r => r.Area).filter(Boolean))].sort());
+  return areas.map(a => ({ header: a, items: getUniqueRetosForUnidad(itemScope.filter(r => normalizeText(r.Area) === normalizeText(a))) })).filter(g => g.items.length);
+}
+
+window.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>
