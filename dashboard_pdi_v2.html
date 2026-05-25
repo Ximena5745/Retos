@@ -878,15 +878,20 @@ body {
 </footer>
 
 <script>
-let RAW_DATA = [{"Unidad": "VICERRECTORÍA DE CRECIMIENTO", "Area": "GERENCIA DE MATRICULAS", "Proceso": "MERCADEO ADMISIONES  Y MATRÍCULA", "SubProceso": "Inscripción, admisión y matrícula de estudiantes nuevos", "Lider": "LIBIA CABRA", "Reto": "Expansion internacional", "Descripcion": "Participar en ferias Latam a traves de Colombia Nos Une-Ministerio de Relaciones Exteriores y Procolombia", "EsProyecto": false, "Indicador": "1. Participación en ferias internacionales (3). 2. Número de convenios creados por feria (1) ", "Linea_VA": "Expansión", "Objetivo_VA": "Crecer con compromiso social ", "Entregable": "Informe de impacto de la Feria y convenios generados", "Linea PDI": "Expansión con compromiso", "Objetivo PDI": "Ampliar la presencia en América", "Desarrollo Sostenible": "", LineaPDI: "Expansión con compromiso", LineaPDIKey: "Expansión con compromiso", "Justificacion_Asignacion": "Coincidencia temática (alta) entre el reto y el objetivo PDI 'Ampliar la presencia en América...' según palabras clave, contexto VA (Expansión) y metas del catálogo."}];
+let RAW_DATA = [{"Unidad": "VICERRECTORÍA DE CRECIMIENTO", "Area": "GERENCIA DE MATRICULAS", "Proceso": "MERCADEO ADMISIONES  Y MATRÍCULA", "SubProceso": "Inscripción, admisión y matrícula de estudiantes nuevos", "Lider": "LIBIA CABRA", "Reto": "Expansion internacional", "Descripcion": "Participar en ferias Latam a traves de Colombia Nos Une-Ministerio de Relaciones Exteriores y Procolombia", "EsProyecto": false, "Indicador": "1. Participación en ferias internacionales (3). 2. Número de convenios creados por feria (1) ", "Linea_VA": "Expansión", "Objetivo_VA": "Crecer con compromiso social ", "Entregable": "Informe de impacto de la Feria y convenios generados", "Linea PDI": "Expansión con compromiso", "Objetivo PDI": "Ampliar la presencia en América", "Desarrollo Sostenible": "", LineaPDI: "Expansión con compromiso", LineaPDIKey: "Expansión con compromiso", "DSClasificacion": "", "Justificacion_Asignacion": "Coincidencia temática (alta) entre el reto y el objetivo PDI 'Ampliar la presencia en América...' según palabras clave, contexto VA (Expansión) y metas del catálogo."}];
+
+/** Color de acento por pilar (columna «Desarrollo Sostenible» del Excel). */
+const DS_CLASIFICACION_COLORS = {
+  "Financiero": "#98CA00",
+  "Ambiental": "#3AA76D",
+  "Social": "#0D6E96"
+};
 
 const LINEAS = [
   { key: "Calidad e innovación educativa", color: "#FF0073", gradient: "linear-gradient(135deg, #FF0073 0%, #C40059 100%)", icon: "fa-solid fa-graduation-cap", badgeBg: "rgba(255,0,115,0.12)", badgeColor: "#FF0073" },
   { key: "Expansión con compromiso", color: "#FFB500", gradient: "linear-gradient(135deg, #FFB500 0%, #D68F00 100%)", icon: "fa-solid fa-chart-line", badgeBg: "rgba(255,181,0,0.12)", badgeColor: "#B07800" },
   { key: "Experiencia centrada en las personas", color: "#00B4E3", gradient: "linear-gradient(135deg, #00B4E3 0%, #0085AB 100%)", icon: "fa-solid fa-users", badgeBg: "rgba(0,180,227,0.12)", badgeColor: "#0085AB" },
-  { key: "Financiero", color: "#98CA00", gradient: "linear-gradient(135deg, #98CA00 0%, #72980A 100%)", icon: "fa-solid fa-coins", badgeBg: "rgba(152,202,0,0.12)", badgeColor: "#6B9600", dsGroup: "Desarrollo Sostenible" },
-  { key: "Ambiental", color: "#3AA76D", gradient: "linear-gradient(135deg, #3AA76D 0%, #1F6F52 100%)", icon: "fa-solid fa-tree", badgeBg: "rgba(58,167,109,0.12)", badgeColor: "#3AA76D", dsGroup: "Desarrollo Sostenible" },
-  { key: "Social", color: "#0D6E96", gradient: "linear-gradient(135deg, #0D6E96 0%, #084E6D 100%)", icon: "fa-solid fa-hands-holding-circle", badgeBg: "rgba(13,110,150,0.12)", badgeColor: "#0D6E96", dsGroup: "Desarrollo Sostenible" }
+  { key: "Desarrollo Sostenible", color: "#2E7D32", gradient: "linear-gradient(135deg, #98CA00 0%, #3AA76D 50%, #0D6E96 100%)", icon: "fa-solid fa-seedling", badgeBg: "rgba(46,125,50,0.12)", badgeColor: "#2E7D32" }
 ];
 
 let selectedUnidad = "";
@@ -910,14 +915,15 @@ function cargarExcel(event) {
       RAW_DATA = json.map(r => {
         const lineaPDI = String(r["Linea PDI"] || "").trim();
         const dsSub = String(r["Desarrollo Sostenible"] || "").trim();
-        const lineaPDIKey = normalizeLineaPDIKey(lineaPDI, dsSub);
+        const lineaPDIKey = normalizeLineaPDIKey(lineaPDI);
+        const DSClasificacion = normalizeText(lineaPDI) === "DESARROLLO SOSTENIBLE" ? dsClasificacionFromExcel(dsSub) : "";
         return {
           Unidad: r["Unidad"] || "", Area: r["Area"] || "", Proceso: r["Proceso"] || "", SubProceso: r["SubProceso"] || "",
           Lider: r["Lider"] || "", Reto: r["Reto"] || "", Descripcion: r["Descripcion"] || "",
           EsProyecto: (String(r["EsProyecto"] || "").toUpperCase() === "VERDADERO"),
           Indicador: r["Indicador"] || "", Linea_VA: r["Linea_VA"] || "", Objetivo_VA: r["Objetivo_VA"] || "",
           Entregable: r["Entregable"] || "", "Linea PDI": lineaPDI, "Objetivo PDI": r["Objetivo PDI"] || "",
-          DesarrolloSostenible: dsSub, LineaPDI: lineaPDI, LineaPDIKey: lineaPDIKey,
+          DesarrolloSostenible: dsSub, LineaPDI: lineaPDI, LineaPDIKey: lineaPDIKey, DSClasificacion,
           Justificacion_Asignacion: r["Justificacion_Asignacion"] || ""
         };
       });
@@ -955,14 +961,15 @@ function autoLoadExcel() {
       RAW_DATA = json.map(r => {
         const lineaPDI = String(r["Linea PDI"] || "").trim();
         const dsSub = String(r["Desarrollo Sostenible"] || "").trim();
-        const lineaPDIKey = normalizeLineaPDIKey(lineaPDI, dsSub);
+        const lineaPDIKey = normalizeLineaPDIKey(lineaPDI);
+        const DSClasificacion = normalizeText(lineaPDI) === "DESARROLLO SOSTENIBLE" ? dsClasificacionFromExcel(dsSub) : "";
         return {
           Unidad: r["Unidad"] || "", Area: r["Area"] || "", Proceso: r["Proceso"] || "", SubProceso: r["SubProceso"] || "",
           Lider: r["Lider"] || "", Reto: r["Reto"] || "", Descripcion: r["Descripcion"] || "",
           EsProyecto: (String(r["EsProyecto"] || "").toUpperCase() === "VERDADERO"),
           Indicador: r["Indicador"] || "", Linea_VA: r["Linea_VA"] || "", Objetivo_VA: r["Objetivo_VA"] || "",
           Entregable: r["Entregable"] || "", "Linea PDI": lineaPDI, "Objetivo PDI": r["Objetivo PDI"] || "",
-          DesarrolloSostenible: dsSub, LineaPDI: lineaPDI, LineaPDIKey: lineaPDIKey,
+          DesarrolloSostenible: dsSub, LineaPDI: lineaPDI, LineaPDIKey: lineaPDIKey, DSClasificacion,
           Justificacion_Asignacion: r["Justificacion_Asignacion"] || ""
         };
       });
@@ -1047,16 +1054,20 @@ function normalizeText(str) {
   return String(str || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toUpperCase();
 }
 
-function normalizeLineaPDIKey(lineaPDI, dsSub) {
+/** Valores de columna O «Desarrollo Sostenible» del Excel → pilar mostrado en la ficha. */
+function dsClasificacionFromExcel(dsSub) {
+  const subKey = normalizeText(dsSub) || "SOCIAL";
+  return {
+    "FINANCIERO": "Financiero",
+    "AMBIENTAL": "Ambiental",
+    "SOCIAL": "Social"
+  }[subKey] || "Social";
+}
+
+/** Clave de columna del tablero (4 líneas; DS es una sola columna). */
+function normalizeLineaPDIKey(lineaPDI) {
   const lineKey = normalizeText(lineaPDI);
-  if (lineKey === "DESARROLLO SOSTENIBLE") {
-    const subKey = normalizeText(dsSub) || "SOCIAL";
-    return {
-      "FINANCIERO": "Financiero",
-      "AMBIENTAL": "Ambiental",
-      "SOCIAL": "Social"
-    }[subKey] || "Social";
-  }
+  if (lineKey === "DESARROLLO SOSTENIBLE") return "Desarrollo Sostenible";
   return {
     "CALIDAD E INNOVACION EDUCATIVA": "Calidad e innovación educativa",
     "EXPANSION CON COMPROMISO": "Expansión con compromiso",
@@ -1143,9 +1154,12 @@ function getUniqueRetos(data, lineaKey) {
     if (row.LineaPDIKey !== lineaKey) continue;
     const retoKey = (row.Reto || "").trim().toLowerCase();
     if (!retoKey) continue;
+    const dsPart = lineaKey === "Desarrollo Sostenible"
+      ? normalizeText(row.DSClasificacion || dsClasificacionFromExcel(row.DesarrolloSostenible))
+      : "";
     const key = incluirAreaEnClave
-      ? `${retoKey}|${(row.Area || "").trim().toLowerCase()}`
-      : retoKey;
+      ? `${retoKey}|${(row.Area || "").trim().toLowerCase()}${dsPart ? "|" + dsPart : ""}`
+      : `${retoKey}${dsPart ? "|" + dsPart : ""}`;
     const entregable = (row.Entregable || "").trim();
     const entregableKey = entregable.toLowerCase().replace(/\s+/g, " ");
 
@@ -1406,6 +1420,12 @@ async function exportExcel() {
           : ((reto.Entregable || "").trim() ? [(reto.Entregable || "").trim()] : []);
         const indicador = (reto.Indicador || "").trim();
         const proyecto = reto.EsProyecto ? "  [PROYECTO]" : "";
+        const clasDS = linea.key === "Desarrollo Sostenible"
+          ? ((reto.DSClasificacion || "").trim() || dsClasificacionFromExcel(reto.DesarrolloSostenible))
+          : "";
+        const bordeColor = linea.key === "Desarrollo Sostenible" && clasDS && DS_CLASIFICACION_COLORS[clasDS]
+          ? DS_CLASIFICACION_COLORS[clasDS]
+          : linea.color;
 
         ws.mergeCells(cardStart, colStart, cardStart, colStart + SPAN - 1);
         const nameCell = ws.getCell(cardStart, colStart);
@@ -1415,7 +1435,7 @@ async function exportExcel() {
         nameCell.alignment = { wrapText: true, vertical: "top", indent: 1 };
         nameCell.border = {
           top: { style: "thin", color: { argb: hexArgb("#E2E8F0") } },
-          left: { style: "medium", color: { argb: hexArgb(linea.color) } },
+          left: { style: "medium", color: { argb: hexArgb(bordeColor) } },
           bottom: { style: "thin", color: { argb: hexArgb("#E2E8F0") } },
           right: { style: "thin", color: { argb: hexArgb("#E2E8F0") } }
         };
@@ -1437,7 +1457,7 @@ async function exportExcel() {
           valCell.alignment = { wrapText: true, vertical: "top", indent: 1 };
           valCell.fill = { type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFFFF" } };
           valCell.border = {
-            left: { style: "medium", color: { argb: hexArgb(linea.color) } },
+            left: { style: "medium", color: { argb: hexArgb(bordeColor) } },
             right: { style: "thin", color: { argb: hexArgb("#E2E8F0") } }
           };
           let totalLines = 0;
@@ -1459,6 +1479,7 @@ async function exportExcel() {
         };
 
         if (showAreaEnFicha()) addField("ÁREA RESPONSABLE", (reto.Area || "").trim());
+        if (linea.key === "Desarrollo Sostenible" && clasDS) addField("CLASIFICACIÓN", clasDS);
         addField("OBJETIVO PDI", objetivo);
         addEntregablesField(entregablesList);
         addField("INDICADOR", indicador);
@@ -1466,7 +1487,7 @@ async function exportExcel() {
         ws.mergeCells(cur, colStart, cur, colStart + SPAN - 1);
         ws.getCell(cur, colStart).border = {
           bottom: { style: "thin", color: { argb: hexArgb("#E2E8F0") } },
-          left: { style: "medium", color: { argb: hexArgb(linea.color) } },
+          left: { style: "medium", color: { argb: hexArgb(bordeColor) } },
           right: { style: "thin", color: { argb: hexArgb("#E2E8F0") } }
         };
         ws.getRow(cur).height = 6;
@@ -1549,7 +1570,7 @@ function renderBoard() {
   if (activeView === "lineas" || activeView === "unidad_linea") {
     if (activeView === "unidad_linea" && !unidad) {
       board.style.gridTemplateColumns = "1fr";
-      board.innerHTML = `<div class="empty-state" style="grid-column:1/-1;padding:48px 24px;text-align:center;max-width:560px;margin:0 auto"><i class="fa-solid fa-sitemap" style="font-size:32px;color:#94A3B8"></i><p style="margin-top:14px;line-height:1.5">Seleccione una de las <strong>8 unidades</strong> en el filtro superior. Se mostrará el mismo tablero por línea que en «Retos por Línea» (incluidas las tres vertientes de <strong>Desarrollo sostenible</strong> según la columna <em>Desarrollo Sostenible</em> del Excel), con los retos solo de esa unidad.</p></div>`;
+      board.innerHTML = `<div class="empty-state" style="grid-column:1/-1;padding:48px 24px;text-align:center;max-width:560px;margin:0 auto"><i class="fa-solid fa-sitemap" style="font-size:32px;color:#94A3B8"></i><p style="margin-top:14px;line-height:1.5">Seleccione una de las <strong>8 unidades</strong>. Verá las <strong>4 líneas</strong> del PDI (incluida <strong>Desarrollo sostenible</strong>); en cada reto de esa línea se muestra la <strong>clasificación</strong> Financiero / Ambiental / Social según el Excel.</p></div>`;
       return;
     }
     const lineasConRetos = [];
@@ -1605,13 +1626,22 @@ function createCard(r, linea) {
   const esProyecto = r.EsProyecto;
   const objetivo = (r["Objetivo PDI"] || "").trim();
   const areaResp = (r.Area || "").trim();
+  const clasDS = linea.key === "Desarrollo Sostenible"
+    ? ((r.DSClasificacion || "").trim() || dsClasificacionFromExcel(r.DesarrolloSostenible))
+    : "";
+  const acentoTarjeta = linea.key === "Desarrollo Sostenible" && clasDS && DS_CLASIFICACION_COLORS[clasDS]
+    ? DS_CLASIFICACION_COLORS[clasDS]
+    : linea.color;
   let badge = "";
   if (esProyecto) {
-    badge = `<span class="badge-proyecto" style="background:${linea.badgeBg};color:${linea.color}"><i class="fa-solid fa-rocket" style="font-size:9px"></i> Proyecto</span>`;
+    badge = `<span class="badge-proyecto" style="background:${linea.badgeBg};color:${acentoTarjeta}"><i class="fa-solid fa-rocket" style="font-size:9px"></i> Proyecto</span>`;
   }
   const metaItems = [];
   if (shouldShowAreaInCard() && areaResp) {
     metaItems.push(`<div class="meta-row"><i class="fa-solid fa-building meta-icon"></i><div class="meta-text"><strong>Área responsable</strong>${escHtml(areaResp)}</div></div>`);
+  }
+  if (clasDS) {
+    metaItems.push(`<div class="meta-row"><i class="fa-solid fa-tags meta-icon"></i><div class="meta-text"><strong>Clasificación</strong>${escHtml(clasDS)}</div></div>`);
   }
   if (objetivo) metaItems.push(`<div class="meta-row"><i class="fa-solid fa-crosshairs meta-icon"></i><div class="meta-text"><strong>Objetivo PDI</strong>${escHtml(objetivo)}</div></div>`);
   if (entregablesList.length === 1) {
@@ -1623,7 +1653,7 @@ function createCard(r, linea) {
   if (indicador) metaItems.push(`<div class="meta-row"><i class="fa-solid fa-chart-simple meta-icon"></i><div class="meta-text"><strong>Indicador</strong>${escHtml(indicador)}</div></div>`);
   const meta = metaItems.length ? `<div class="reto-meta">${metaItems.join("")}</div>` : "";
   card.innerHTML = `<div class="reto-card-top"><div class="reto-name">${escHtml(retoName)}</div>${badge}</div>${meta}`;
-  card.style.borderLeft = `3px solid ${linea.color}`;
+  card.style.borderLeft = `3px solid ${acentoTarjeta}`;
   return card;
 }
 
